@@ -41,7 +41,6 @@ namespace Virgil\Sdk\Http\Requests;
 
 use Virgil\Sdk\Http\Constants\RequestMethods;
 
-
 /**
  * Class DeleteHttpRequest
  */

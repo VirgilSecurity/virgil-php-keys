@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Interface AccessToken
  */

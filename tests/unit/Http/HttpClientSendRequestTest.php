@@ -37,9 +37,7 @@
 
 namespace Tests\Unit\Http;
 
-use Virgil\Sdk\Http\AbstractHttpClient;
 use Virgil\Sdk\Http\Curl\CurlClient;
-use Virgil\Sdk\Http\Curl\RequestFactoryInterface;
 use Virgil\Sdk\Http\Requests\DeleteHttpRequest;
 use Virgil\Sdk\Http\Requests\GetHttpRequest;
 use Virgil\Sdk\Http\Requests\PostHttpRequest;

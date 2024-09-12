@@ -40,7 +40,6 @@ namespace Virgil\Sdk\Http;
 use Virgil\Sdk\Http\Requests\HttpRequestInterface;
 use Virgil\Sdk\Http\Responses\HttpResponseInterface;
 
-
 /**
  * Interface provides HTTP client request.
  */

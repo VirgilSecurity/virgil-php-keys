@@ -43,46 +43,18 @@ use Virgil\Crypto\Core\VirgilKeys\VirgilPrivateKey;
 use Virgil\Crypto\Exceptions\VirgilCryptoException;
 use Virgil\Crypto\VirgilCrypto;
 
-
 /**
  * Class JwtGenerator
  */
-class JwtGenerator
+readonly class JwtGenerator
 {
-    /**
-     * @var VirgilPrivateKey
-     */
-    private $apiKey;
-    /**
-     * @var string
-     */
-    private $apiPublicKeyIdentifier;
-    /**
-     * @var VirgilCrypto
-     */
-    private $virgilCrypto;
-    /**
-     * @var string
-     */
-    private $appID;
-    /**
-     * @var int
-     */
-    private $ttl;
-
-
     public function __construct(
-        VirgilPrivateKey $apiKey,
-        string $apiPublicKeyIdentifier,
-        VirgilCrypto $virgilCrypto,
-        string $appID,
-        int $ttl
+        private VirgilPrivateKey $apiKey,
+        private string $apiPublicKeyIdentifier,
+        private VirgilCrypto $virgilCrypto,
+        private string $appID,
+        private int $ttl
     ) {
-        $this->apiKey = $apiKey;
-        $this->apiPublicKeyIdentifier = $apiPublicKeyIdentifier;
-        $this->virgilCrypto = $virgilCrypto;
-        $this->appID = $appID;
-        $this->ttl = $ttl;
     }
 
 
@@ -96,9 +68,9 @@ class JwtGenerator
 
         $jwtHeader = new JwtHeaderContent(
             $this->apiPublicKeyIdentifier,
-            Jwt::VirgilJwtAlgorithm,
-            Jwt::VirgilJwtContentType,
-            Jwt::VirgilJwtType
+            Jwt::VIRGIL_JWT_ALGORITHM,
+            Jwt::VIRGIL_JWT_CONTENT_TYPE,
+            Jwt::VIRGIL_JWT_TYPE
         );
 
         $jwtBody = new JwtBodyContent($this->appID, $identity, $issuedAt, $expiresAt, $additionalData);

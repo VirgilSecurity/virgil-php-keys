@@ -46,32 +46,27 @@ use Virgil\Sdk\Http\Responses\HttpResponse;
 use Virgil\Sdk\Http\Responses\HttpResponseInterface;
 use Virgil\Sdk\Http\Responses\HttpStatusCode;
 
-
 /**
  * Class CurlClient
  */
 class CurlClient extends AbstractHttpClient implements HttpClientInterface
 {
-    private $curlRequestFactory;
-
-    private $requestHeaders;
-
-    public function __construct(RequestFactoryInterface $curlRequestFactory, array $requestHeaders = [])
-    {
-        $this->curlRequestFactory = $curlRequestFactory;
-        $this->requestHeaders = $requestHeaders;
+    public function __construct(
+        private readonly RequestFactoryInterface $curlRequestFactory,
+        private array $requestHeaders = []
+    ) {
     }
 
     /**
-     * Make and execute a HTTP POST request.
+     * Make and execute an HTTP POST request.
      */
-    public function post(string $requestUrl, string $requestBody, array $requestHeaders = []): HttpResponseInterface
+    public function post(string $url, string $body, array $headers = []): HttpResponseInterface
     {
         $curlOptions = [
-            CURLOPT_URL => $this->buildUrl($requestUrl),
-            CURLOPT_HTTPHEADER => $this->buildHeaders($requestHeaders),
+            CURLOPT_URL => $this->buildUrl($url),
+            CURLOPT_HTTPHEADER => $this->buildHeaders($headers),
             CURLOPT_CUSTOMREQUEST => RequestMethods::HTTP_POST,
-            CURLOPT_POSTFIELDS => $requestBody,
+            CURLOPT_POSTFIELDS => $body,
             CURLOPT_POST => true,
         ];
 
@@ -83,14 +78,14 @@ class CurlClient extends AbstractHttpClient implements HttpClientInterface
     /**
      * Make and execute a HTTP DELETE request.
      */
-    public function delete(string $requestUrl, string $requestBody, array $requestHeaders = []): HttpResponseInterface
+    public function delete(string $url, string $body, array $headers = []): HttpResponseInterface
     {
         $curlRequest = $this->curlRequestFactory->create(
             [
-                CURLOPT_URL => $this->buildUrl($requestUrl),
-                CURLOPT_HTTPHEADER => $this->buildHeaders($requestHeaders),
+                CURLOPT_URL => $this->buildUrl($url),
+                CURLOPT_HTTPHEADER => $this->buildHeaders($headers),
                 CURLOPT_CUSTOMREQUEST => RequestMethods::HTTP_DELETE,
-                CURLOPT_POSTFIELDS => $requestBody,
+                CURLOPT_POSTFIELDS => $body,
                 CURLOPT_POST => true,
             ]
         );
@@ -102,14 +97,14 @@ class CurlClient extends AbstractHttpClient implements HttpClientInterface
      * Make and execute a HTTP GET request.
      */
     public function get(
-        string $requestUrl,
-        array $requestParams = [],
-        array $requestHeaders = []
+        string $url,
+        array $queryParams = [],
+        array $headers = []
     ): HttpResponseInterface {
         $curlRequest = $this->curlRequestFactory->create(
             [
-                CURLOPT_URL => $this->buildUrl($requestUrl, $requestParams),
-                CURLOPT_HTTPHEADER => $this->buildHeaders($requestHeaders),
+                CURLOPT_URL => $this->buildUrl($url, $queryParams),
+                CURLOPT_HTTPHEADER => $this->buildHeaders($headers),
                 CURLOPT_CUSTOMREQUEST => RequestMethods::HTTP_GET,
                 CURLOPT_HTTPGET => true,
             ]
@@ -166,7 +161,6 @@ class CurlClient extends AbstractHttpClient implements HttpClientInterface
         $resultHeaders = [];
 
         foreach ($requestHeaders as $headerName => $headerValue) {
-
             if (is_array($headerValue)) {
                 $headerValue = implode(',', $headerValue);
             }

@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Http\Curl;
 
-
 /**
  * Interface provides methods for curl request creation and configuration.
  */

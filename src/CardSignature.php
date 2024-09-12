@@ -39,36 +39,17 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk;
 
-
 /**
  * Class CardSignature
  */
-class CardSignature
+readonly class CardSignature
 {
-    /**
-     * @var string
-     */
-    private $signer;
-    /**
-     * @var string
-     */
-    private $signature;
-    /**
-     * @var string|null
-     */
-    private $snapshot;
-    /**
-     * @var array|null
-     */
-    private $extraFields;
-
-
-    function __construct(string $signer, string $signature, ?string $snapshot = null, ?array $extraFields = null)
-    {
-        $this->signer = $signer;
-        $this->signature = $signature;
-        $this->snapshot = $snapshot;
-        $this->extraFields = $extraFields;
+    public function __construct(
+        private string $signer,
+        private string $signature,
+        private ?string $snapshot = null,
+        private ?array $extraFields = null
+    ) {
     }
 
 

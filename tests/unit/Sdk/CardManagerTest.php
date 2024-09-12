@@ -127,10 +127,10 @@ class CardManagerTest extends TestCase
             ->generateRawCard(
                 CardParams::create(
                     [
-                        CardParams::PublicKey => $this->createMock(VirgilPublicKey::class),
-                        CardParams::PrivateKey => $this->createMock(VirgilPrivateKey::class),
-                        CardParams::Identity => 'Alice',
-                        CardParams::PreviousCardID => '23f23f',
+                        CardParams::PUBLIC_KEY => $this->createMock(VirgilPublicKey::class),
+                        CardParams::PRIVATE_KEY => $this->createMock(VirgilPrivateKey::class),
+                        CardParams::IDENTITY => 'Alice',
+                        CardParams::PREVIOUS_CARD_ID => '23f23f',
                     ]
                 )
             );
@@ -156,10 +156,10 @@ class CardManagerTest extends TestCase
             ->generateRawCard(
                 CardParams::create(
                     [
-                        CardParams::PublicKey => $this->createMock(VirgilPublicKey::class),
-                        CardParams::PrivateKey => $this->createMock(VirgilPrivateKey::class),
-                        CardParams::Identity => 'Alice',
-                        CardParams::ExtraFields => [
+                        CardParams::PUBLIC_KEY => $this->createMock(VirgilPublicKey::class),
+                        CardParams::PRIVATE_KEY => $this->createMock(VirgilPrivateKey::class),
+                        CardParams::IDENTITY => 'Alice',
+                        CardParams::EXTRA_FIELDS => [
                             'extra_a' => 'val_1',
                             'extra_b' => 'val_2',
                         ],

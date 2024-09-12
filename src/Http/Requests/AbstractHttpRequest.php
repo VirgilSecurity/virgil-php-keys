@@ -39,27 +39,16 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\Requests;
 
-
 /**
  * Class HttpRequest
  */
 abstract class AbstractHttpRequest implements HttpRequestInterface
 {
-    /** @var string */
-    private $url;
-
-    /** @var string|null */
-    private $body;
-
-    /** @var array */
-    private $headers;
-
-
-    public function __construct(string $url, ?string $body = null, array $headers = [])
-    {
-        $this->url = $url;
-        $this->body = $body;
-        $this->headers = $headers;
+    public function __construct(
+        private readonly string $url,
+        private readonly ?string $body = null,
+        private readonly array $headers = []
+    ) {
     }
 
 

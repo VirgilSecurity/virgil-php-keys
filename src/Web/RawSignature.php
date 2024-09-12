@@ -41,42 +41,24 @@ namespace Virgil\Sdk\Web;
 
 use JsonSerializable;
 
-
 /**
  * Class RawSignature
  */
-class RawSignature implements JsonSerializable
+readonly class RawSignature implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $signer;
-    /**
-     * @var string|null
-     */
-    private $snapshot;
-    /**
-     * @var string
-     */
-    private $signature;
-
-
-    public function __construct(string $signer, string $signature, ?string $snapshot = null)
+    public function __construct(private string $signer, private string $signature, private ?string $snapshot = null)
     {
-        $this->signer = $signer;
-        $this->signature = $signature;
-        $this->snapshot = $snapshot;
     }
 
 
     /**
      * Specify data which should be serialized to JSON
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * @return array data which can be serialized by <b>json_encode</b>,
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         $jsonData = [
             'signature' => base64_encode($this->signature),

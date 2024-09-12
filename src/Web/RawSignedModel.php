@@ -41,34 +41,20 @@ namespace Virgil\Sdk\Web;
 
 use JsonSerializable;
 
-
 /**
  * Class RawSignedModel
  */
-class RawSignedModel implements JsonSerializable
+readonly class RawSignedModel implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $contentSnapshot;
-    /**
-     * @var RawSignature[]
-     */
-    private $signatures;
-
-
     /**
      * @param string $contentSnapshot
      * @param RawSignature[] $signatures
      */
-    function __construct(string $contentSnapshot, array $signatures)
+    public function __construct(private string $contentSnapshot, private array $signatures)
     {
-        $this->contentSnapshot = $contentSnapshot;
-        $this->signatures = $signatures;
     }
 
-
-    public static function RawSignedModelFromJson(string $json): RawSignedModel
+    public static function rawSignedModelFromJson(string $json): RawSignedModel
     {
         $body = json_decode($json, true);
         $signatures = $body['signatures'];
@@ -92,20 +78,20 @@ class RawSignedModel implements JsonSerializable
     }
 
 
-    public static function RawSignedModelFromBase64String(string $base64String): RawSignedModel
+    public static function rawSignedModelFromBase64String(string $base64String): RawSignedModel
     {
-        return self::RawSignedModelFromJson(base64_decode($base64String));
+        return self::rawSignedModelFromJson(base64_decode($base64String));
     }
 
 
     /**
      * Specify data which should be serialized to JSON
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * @return array data which can be serialized by <b>json_encode</b>,
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'content_snapshot' => base64_encode($this->contentSnapshot),

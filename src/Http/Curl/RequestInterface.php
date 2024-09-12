@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Http\Curl;
 
-
 /**
  * Interface represents methods of cURL session.
  */
@@ -48,15 +47,16 @@ interface RequestInterface
      *
      * @return mixed
      */
-    public function execute();
+    public function execute(): mixed;
 
 
     /**
      * Get info from request.
      *
+     * @param int|null $option
      * @return mixed
      */
-    public function getInfo(?int $option = null);
+    public function getInfo(?int $option = null): mixed;
 
 
     /**
@@ -81,5 +81,4 @@ interface RequestInterface
      * Close a curl session.
      */
     public function close(): RequestInterface;
-
 }

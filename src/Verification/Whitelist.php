@@ -39,26 +39,18 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Verification;
 
-
 /**
  * Class Whitelist
  */
-class Whitelist
+readonly class Whitelist
 {
-    /**
-     * @var VerifierCredentials[]
-     */
-    private $credentials;
-
-
     /**
      * Whitelist constructor.
      *
      * @param VerifierCredentials[] $credentials
      */
-    public function __construct(array $credentials)
+    public function __construct(private array $credentials)
     {
-        $this->credentials = $credentials;
     }
 
 

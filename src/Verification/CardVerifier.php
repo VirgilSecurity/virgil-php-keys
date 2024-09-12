@@ -39,7 +39,6 @@ namespace Virgil\Sdk\Verification;
 
 use Virgil\Sdk\Card;
 
-
 /**
  * Class CardVerifier
  */

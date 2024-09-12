@@ -44,51 +44,28 @@ use Virgil\Crypto\Exceptions\VirgilCryptoException;
 use Virgil\Crypto\VirgilCrypto;
 use Virgil\Sdk\Card;
 
-
 /**
  * Class VirgilCardVerifier
  */
 class VirgilCardVerifier implements CardVerifier
 {
-    const VirgilPublicKey = "MCowBQYDK2VwAyEAljOYGANYiVq1WbvVvoYIKtvZi2ji9bAhxyu6iV/LF8M=";
-
-    /**
-     * @var VirgilCrypto
-     */
-    private $virgilCrypto;
-    /**
-     * @var bool
-     */
-    private $verifySelfSignature;
-    /**
-     * @var bool
-     */
-    private $verifyVirgilSignature;
-    /**
-     * @var Whitelist[]
-     */
-    private $whiteLists;
+    private const string VIRGIL_PUBLIC_KEY = "MCowBQYDK2VwAyEAljOYGANYiVq1WbvVvoYIKtvZi2ji9bAhxyu6iV/LF8M=";
 
     /**
      * @var VirgilPublicKey
      */
-    private $virgilPublicKey;
+    private VirgilPublicKey $virgilPublicKey;
 
     /**
      * @throws VirgilCryptoException
      */
     public function __construct(
-        VirgilCrypto $virgilCrypto,
-        bool $verifySelfSignature = true,
-        bool $verifyVirgilSignature = true,
-        array $whiteLists = [],
-        string $virgilPublicKey = self::VirgilPublicKey
+        private readonly VirgilCrypto $virgilCrypto,
+        private readonly bool $verifySelfSignature = true,
+        private readonly bool $verifyVirgilSignature = true,
+        private readonly array $whiteLists = [],
+        string $virgilPublicKey = self::VIRGIL_PUBLIC_KEY
     ) {
-        $this->virgilCrypto = $virgilCrypto;
-        $this->verifySelfSignature = $verifySelfSignature;
-        $this->verifyVirgilSignature = $verifyVirgilSignature;
-        $this->whiteLists = $whiteLists;
-
         if ($verifyVirgilSignature) {
             $this->virgilPublicKey = $virgilCrypto->importPublicKey(base64_decode($virgilPublicKey));
         }

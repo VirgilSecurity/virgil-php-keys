@@ -5,10 +5,14 @@ declare(strict_types=1);
 require '../vendor/autoload.php';
 
 use Virgil\Crypto\Core\VirgilKeys\VirgilKeyPair;
+use Virgil\Crypto\Exceptions\VirgilCryptoException;
 use Virgil\Crypto\VirgilCrypto;
 use Virgil\Sdk\Card;
 use Virgil\Sdk\CardManager;
 use Virgil\Sdk\CardParams;
+use Virgil\Sdk\Exceptions\CardClientException;
+use Virgil\Sdk\Exceptions\CardVerificationException;
+use Virgil\Sdk\Exceptions\VirgilException;
 use Virgil\Sdk\Http\VirgilAgent\HttpVirgilAgent;
 use Virgil\Sdk\Storage\PrivateKeyStorage;
 use Virgil\Sdk\Verification\VirgilCardVerifier;
@@ -23,16 +27,19 @@ use \Virgil\Sdk\Storage\PrivateKeyEntry;
  */
 class VirgilCryptoSample
 {
-    private $auth;
+    private array $auth;
 
-    private $identity;
+    private string $identity;
 
-    private $keyPair;
+    private VirgilKeyPair $keyPair;
 
-    private $privateKeyStorage;
+    private PrivateKeyStorage $privateKeyStorage;
 
-    private $storagePath = "./keys/";
+    private string $storagePath = "./keys/";
 
+    /**
+     * @throws VirgilException
+     */
     public function __construct()
     {
         $this->auth = [
@@ -51,17 +58,36 @@ class VirgilCryptoSample
 
     // PUBLIC FUNCTIONS:
 
+    /**
+     * @param string $identity
+     * @return void
+     */
     public function setIdentity(string $identity): void
     {
         $this->identity = $identity;
     }
 
+    /**
+     * @return Card
+     * @throws VirgilException
+     * @throws CardClientException
+     * @throws CardVerificationException
+     */
     public function storePrivateKeyAndCreateCard(): Card
     {
         $this->storePrivateKey($this->identity);
         return $this->createCard();
     }
 
+    /**
+     * @param string $recipientIdentity
+     * @param string $dataToEncrypt
+     * @return string|null
+     * @throws CardClientException
+     * @throws CardVerificationException
+     * @throws VirgilException
+     * @throws VirgilCryptoException
+     */
     public function signThenEncryptData(string $recipientIdentity, string $dataToEncrypt): ?string
     {
         $cards = $this->getUserCardsByIdentity($recipientIdentity);
@@ -71,15 +97,22 @@ class VirgilCryptoSample
             $keyCollection->addPublicKey($card->getPublicKey());
         }
 
-        $encryptedData = $this->getVirgilCrypto()->signAndEncrypt(
+        return $this->getVirgilCrypto()->signAndEncrypt(
             $dataToEncrypt,
             $this->loadPrivateKey($this->identity)->getPrivateKey(),
             $keyCollection
         );
-
-        return $encryptedData;
     }
 
+    /**
+     * @param string $senderIdentity
+     * @param string $dataToDecrypt
+     * @return string|null
+     * @throws CardClientException
+     * @throws CardVerificationException
+     * @throws VirgilCryptoException
+     * @throws VirgilException
+     */
     public function decryptDataThenVerifySignature(string $senderIdentity, string $dataToDecrypt): ?string
     {
         $senderCards = $this->getUserCardsByIdentity($senderIdentity);
@@ -89,17 +122,18 @@ class VirgilCryptoSample
             $keyCollection->addPublicKey($card->getPublicKey());
         }
 
-        $decryptedData = $this->getVirgilCrypto()->decryptAndVerify(
+        return $this->getVirgilCrypto()->decryptAndVerify(
             $dataToDecrypt,
             $this->loadPrivateKey($this->identity)->getPrivateKey(),
             $keyCollection
         );
-
-        return $decryptedData;
     }
 
     /**
-     * @throws \Virgil\Sdk\Exceptions\VirgilException
+     * @param string $identity
+     * @return void
+     * @throws VirgilCryptoException
+     * @throws VirgilException
      */
     public function storePrivateKey(string $identity): void
     {
@@ -107,7 +141,10 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\Sdk\Exceptions\VirgilException
+     * @param string $identity
+     * @return PrivateKeyEntry
+     * @throws VirgilCryptoException
+     * @throws VirgilException
      */
     public function loadPrivateKey(string $identity): PrivateKeyEntry
     {
@@ -115,7 +152,9 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\Sdk\Exceptions\VirgilException
+     * @param string $identity
+     * @return void
+     * @throws VirgilException
      */
     public function deletePrivateKey(string $identity): void
     {
@@ -123,8 +162,11 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\Sdk\Exceptions\CardClientException
-     * @throws \Virgil\Sdk\Exceptions\CardVerificationException
+     * @param string $identity
+     * @return array
+     * @throws CardClientException
+     * @throws CardVerificationException
+     * @throws VirgilCryptoException
      */
     public function getUserCardsByIdentity(string $identity): array
     {
@@ -132,8 +174,11 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\Sdk\Exceptions\CardClientException
-     * @throws \Virgil\Sdk\Exceptions\CardVerificationException
+     * @param string $id
+     * @return Card
+     * @throws CardClientException
+     * @throws CardVerificationException
+     * @throws VirgilCryptoException
      */
     public function getUserCardById(string $id): Card
     {
@@ -142,11 +187,18 @@ class VirgilCryptoSample
 
     // PRIVATE FUNCTIONS:
 
+    /**
+     * @return VirgilCrypto
+     */
     private function getVirgilCrypto(): VirgilCrypto
     {
         return new VirgilCrypto();
     }
 
+    /**
+     * @return VirgilCardVerifier
+     * @throws VirgilCryptoException
+     */
     private function getCardVerifier(): VirgilCardVerifier
     {
         return new VirgilCardVerifier(
@@ -159,7 +211,8 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\CryptoImpl\VirgilCryptoException
+     * @return CardManager
+     * @throws VirgilCryptoException
      */
     private function getCardManager(): CardManager
     {
@@ -171,13 +224,18 @@ class VirgilCryptoSample
         );
     }
 
+    /**
+     * @return VirgilKeyPair
+     * @throws VirgilCryptoException
+     */
     private function generateKeys(): VirgilKeyPair
     {
         return $this->getVirgilCrypto()->generateKeyPair();
     }
 
     /**
-     * @throws \Virgil\CryptoImpl\VirgilCryptoException
+     * @return string
+     * @throws VirgilCryptoException
      */
     private function getGeneratedJWT(): string
     {
@@ -192,13 +250,12 @@ class VirgilCryptoSample
 
         $token = $jwtGenerator->generateToken($this->identity);
 
-        $jwt = $token->__toString();
-
-        return $jwt;
+        return $token->__toString();
     }
 
     /**
-     * @throws \Virgil\CryptoImpl\VirgilCryptoException
+     * @return CallbackJwtProvider
+     * @throws VirgilCryptoException
      */
     private function setUpJWTProvider(): CallbackJwtProvider
     {
@@ -212,18 +269,19 @@ class VirgilCryptoSample
     }
 
     /**
-     * @throws \Virgil\CryptoImpl\VirgilCryptoException
-     * @throws \Virgil\Sdk\Exceptions\CardClientException
-     * @throws \Virgil\Sdk\Exceptions\CardVerificationException
+     * @return Card
+     * @throws CardClientException
+     * @throws CardVerificationException
+     * @throws VirgilCryptoException
      */
     private function createCard(): Card
     {
         return $this->getCardManager()->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $this->identity,
-                    CardParams::PublicKey => $this->keyPair->getPublicKey(),
-                    CardParams::PrivateKey => $this->keyPair->getPrivateKey(),
+                    CardParams::IDENTITY => $this->identity,
+                    CardParams::PUBLIC_KEY => $this->keyPair->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $this->keyPair->getPrivateKey(),
                 ]
             )
         );

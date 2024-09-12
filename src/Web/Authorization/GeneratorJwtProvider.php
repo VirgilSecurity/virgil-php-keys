@@ -41,37 +41,22 @@ namespace Virgil\Sdk\Web\Authorization;
 
 use Virgil\Crypto\Exceptions\VirgilCryptoException;
 
-
 /**
  * Class GeneratorJwtProvider
  */
-class GeneratorJwtProvider implements AccessTokenProvider
+readonly class GeneratorJwtProvider implements AccessTokenProvider
 {
-    /**
-     * @var JwtGenerator
-     */
-    private $jwtGenerator;
-    /**
-     * @var array|null
-     */
-    private $additionalData;
-    /**
-     * @var string
-     */
-    private $defaultIdentity;
-
     /**
      * @throws GeneratorJWTProviderException
      */
-    public function __construct(JwtGenerator $jwtGenerator, string $defaultIdentity, ?array $additionalData = null)
-    {
+    public function __construct(
+        private JwtGenerator $jwtGenerator,
+        private string $defaultIdentity,
+        private ?array $additionalData = null
+    ) {
         if (empty($defaultIdentity)) {
             throw new GeneratorJWTProviderException('Default identity is required');
         }
-
-        $this->jwtGenerator = $jwtGenerator;
-        $this->additionalData = $additionalData;
-        $this->defaultIdentity = $defaultIdentity;
     }
 
 

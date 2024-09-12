@@ -41,31 +41,13 @@ namespace Virgil\Sdk\Storage;
 
 use JsonSerializable;
 
-
 /**
  * Class KeyEntry
  */
-class KeyEntry implements JsonSerializable
+readonly class KeyEntry implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $value;
-    /**
-     * @var array|null
-     */
-    private $meta;
-
-
-    function __construct(string $name, string $value, ?array $meta = null)
+    public function __construct(private string $name, private string $value, private ?array $meta = null)
     {
-        $this->name = $name;
-        $this->value = $value;
-        $this->meta = $meta;
     }
 
 

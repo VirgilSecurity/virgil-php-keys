@@ -44,7 +44,6 @@ use Virgil\Crypto\Exceptions\VirgilCryptoException;
 use Virgil\Crypto\VirgilCrypto;
 use Virgil\Sdk\Exceptions\VirgilException;
 
-
 /**
  * Class PrivateKeyStorage
  */
@@ -53,28 +52,26 @@ class PrivateKeyStorage
     /**
      * @var KeyStorage
      */
-    protected $keyStorage;
-    /**
-     * @var VirgilCrypto
-     */
-    private $virgilCrypto;
+    protected KeyStorage $keyStorage;
 
 
     /**
      * @throws VirgilException
      */
-    public function __construct(VirgilCrypto $virgilCrypto, string $storagePath)
+    public function __construct(private readonly VirgilCrypto $virgilCrypto, string $storagePath)
     {
         $this->keyStorage = new KeyStorage($storagePath);
-        $this->virgilCrypto = $virgilCrypto;
     }
 
-
     /**
-     * @throws VirgilException
+     * @param VirgilPrivateKey $privateKey
+     * @param string $name
+     * @param array|null $meta
+     * @return void
      * @throws VirgilCryptoException
+     * @throws VirgilException
      */
-    public function store(VirgilPrivateKey $privateKey, string $name, ?array $meta = null)
+    public function store(VirgilPrivateKey $privateKey, string $name, ?array $meta = null): void
     {
         $exportedData = $this->virgilCrypto->exportPrivateKey($privateKey);
 

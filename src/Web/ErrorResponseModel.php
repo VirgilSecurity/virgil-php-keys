@@ -39,17 +39,10 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web;
 
-
-class ErrorResponseModel
+readonly class ErrorResponseModel
 {
-    private $code;
-
-    private $message;
-
-    public function __construct(int $code, string $message)
+    public function __construct(private int $code, private string $message)
     {
-        $this->code = $code;
-        $this->message = $message;
     }
 
     public function getCode(): int

@@ -41,43 +41,27 @@ namespace Virgil\Sdk\Web\Authorization;
 
 use InvalidArgumentException;
 
-
 /**
  * Class Jwt
  */
 class Jwt implements AccessToken
 {
-
-    const VirgilJwtType = 'JWT';
-    const VirgilJwtContentType = 'virgil-jwt;v=1';
-    const VirgilJwtAlgorithm = 'VEDS512';
+    public const string VIRGIL_JWT_TYPE = 'JWT';
+    public const string VIRGIL_JWT_CONTENT_TYPE = 'virgil-jwt;v=1';
+    public const string VIRGIL_JWT_ALGORITHM = 'VEDS512';
 
     /**
      * @var JwtParser
      */
-    protected $jwtParser;
-    /**
-     * @var JwtHeaderContent
-     */
-    private $headerContent;
-    /**
-     * @var JwtBodyContent
-     */
-    private $bodyContent;
-    /**
-     * @var string
-     */
-    private $signatureContent;
+    protected JwtParser $jwtParser;
 
-
-    public function __construct(JwtHeaderContent $headerContent, JwtBodyContent $bodyContent, string $signature)
-    {
-        $this->headerContent = $headerContent;
-        $this->bodyContent = $bodyContent;
-        $this->signatureContent = $signature;
+    public function __construct(
+        private readonly JwtHeaderContent $headerContent,
+        private readonly JwtBodyContent $bodyContent,
+        private readonly string $signatureContent
+    ) {
         $this->jwtParser = new JwtParser();
     }
-
 
     public static function fromString(string $token): Jwt
     {

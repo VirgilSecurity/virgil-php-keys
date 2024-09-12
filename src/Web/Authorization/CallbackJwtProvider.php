@@ -39,7 +39,6 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Class CallbackJwtProvider
  */

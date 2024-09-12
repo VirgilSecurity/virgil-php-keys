@@ -47,64 +47,37 @@ use Virgil\Crypto\Core\VirgilKeys\VirgilPublicKey;
  */
 class CardParams
 {
-    const PublicKey = 'public_key';
-    const PrivateKey = 'private_key';
-    const Identity = 'identity';
-    const PreviousCardID = 'previous_card_ID';
-    const ExtraFields = 'extra_fields';
-
-    /**
-     * @var VirgilPublicKey
-     */
-    private $publicKey;
-    /**
-     * @var VirgilPrivateKey
-     */
-    private $privateKey;
-    /**
-     * @var null|string
-     */
-    private $identity;
-    /**
-     * @var null|string
-     */
-    private $previousCardID;
-    /**
-     * @var null|array
-     */
-    private $extraFields;
-
+    public const string PUBLIC_KEY = 'public_key';
+    public const string PRIVATE_KEY = 'private_key';
+    public const string IDENTITY = 'identity';
+    public const string PREVIOUS_CARD_ID = 'previous_card_ID';
+    public const string EXTRA_FIELDS = 'extra_fields';
 
     public function __construct(
-        VirgilPublicKey $publicKey,
-        VirgilPrivateKey $privateKey,
-        ?string $identity = null,
-        ?string $previousCardID = null,
-        ?array $extraFields = null
+        private readonly VirgilPublicKey $publicKey,
+        private readonly VirgilPrivateKey $privateKey,
+        private ?string $identity = null,
+        private ?string $previousCardID = null,
+        private ?array $extraFields = null
     ) {
-        $this->publicKey = $publicKey;
-        $this->privateKey = $privateKey;
-        $this->identity = $identity;
-        $this->previousCardID = $previousCardID;
-        $this->extraFields = $extraFields;
     }
 
 
     public static function create(array $params): CardParams
     {
-        $publicKey = $params[self::PublicKey];
-        $privateKey = $params[self::PrivateKey];
+        $publicKey = $params[self::PUBLIC_KEY];
+        $privateKey = $params[self::PRIVATE_KEY];
 
         $cardParams = new self($publicKey, $privateKey);
 
-        if (array_key_exists(self::Identity, $params)) {
-            $cardParams->identity = $params[self::Identity];
+        if (array_key_exists(self::IDENTITY, $params)) {
+            $cardParams->identity = $params[self::IDENTITY];
         }
-        if (array_key_exists(self::PreviousCardID, $params)) {
-            $cardParams->previousCardID = $params[self::PreviousCardID];
+        if (array_key_exists(self::PREVIOUS_CARD_ID, $params)) {
+            $cardParams->previousCardID = $params[self::PREVIOUS_CARD_ID];
         }
-        if (array_key_exists(self::ExtraFields, $params)) {
-            $cardParams->extraFields = $params[self::ExtraFields];
+        if (array_key_exists(self::EXTRA_FIELDS, $params)) {
+            $cardParams->extraFields = $params[self::EXTRA_FIELDS];
         }
 
         return $cardParams;
@@ -139,5 +112,4 @@ class CardParams
     {
         return $this->extraFields;
     }
-
 }

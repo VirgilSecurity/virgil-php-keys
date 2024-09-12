@@ -39,7 +39,6 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Class JwtParser
  */
@@ -85,6 +84,4 @@ class JwtParser
     {
         return json_encode($jwtHeaderContent);
     }
-
-
 }

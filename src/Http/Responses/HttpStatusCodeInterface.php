@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Http\Responses;
 
-
 /**
  * Interface represents HTTP status code.
  */

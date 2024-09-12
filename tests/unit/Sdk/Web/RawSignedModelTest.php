@@ -53,11 +53,11 @@ class RawSignedModelTest extends TestCase
         return [
             [
                 '{"content_snapshot":"eyJpZGVudGl0eSI6IkFsaWNlLTZjYWRhYTY4ZjA5MWQzZDM2MjZhIiwicHVibGljX2tleSI6Ik1Db3dCUVlESzJWd0F5RUFEN0JOZVZEYnVaOUZQT0p1Q2Z2UUJWZWxyYWpzcGZUb212UnBOMURZVm4wPSIsInZlcnNpb24iOiI1LjAiLCJjcmVhdGVkX2F0IjoxNTIzODI3ODg4fQ==","signatures":[{"signer":"self","signature":"MFEwDQYJYIZIAWUDBAIDBQAEQDBbYZkTu7vt5AKTcCPJ685nMuQCivQZeMR+6jmmJY21/k5B4xEs5A7HF293fbYV/6ZlqdTAsPjjQuMXPNU6pwA="},{"signer":"virgil","signature":"MFEwDQYJYIZIAWUDBAIDBQAEQAOiE0Y29s/rPAtxjV0HZsGf3ETQnjCFSndvac2KPNP4rXUOJ2NOj7VgRAkc3izKQpDs+Bd1YNy0hZeh36GcJQc="}]}',
-                [RawSignedModel::class, 'RawSignedModelFromJson'],
+                [RawSignedModel::class, 'rawSignedModelFromJson'],
             ],
             [
                 'eyJjb250ZW50X3NuYXBzaG90IjoiZXlKcFpHVnVkR2wwZVNJNklrRnNhV05sTFRaallXUmhZVFk0WmpBNU1XUXpaRE0yTWpaaElpd2ljSFZpYkdsalgydGxlU0k2SWsxRGIzZENVVmxFU3pKV2QwRjVSVUZFTjBKT1pWWkVZblZhT1VaUVQwcDFRMloyVVVKV1pXeHlZV3B6Y0daVWIyMTJVbkJPTVVSWlZtNHdQU0lzSW5abGNuTnBiMjRpT2lJMUxqQWlMQ0pqY21WaGRHVmtYMkYwSWpveE5USXpPREkzT0RnNGZRPT0iLCJzaWduYXR1cmVzIjpbeyJzaWduZXIiOiJzZWxmIiwic2lnbmF0dXJlIjoiTUZFd0RRWUpZSVpJQVdVREJBSURCUUFFUURCYllaa1R1N3Z0NUFLVGNDUEo2ODVuTXVRQ2l2UVplTVIrNmptbUpZMjEvazVCNHhFczVBN0hGMjkzZmJZVi82WmxxZFRBc1BqalF1TVhQTlU2cHdBPSJ9LHsic2lnbmVyIjoidmlyZ2lsIiwic2lnbmF0dXJlIjoiTUZFd0RRWUpZSVpJQVdVREJBSURCUUFFUUFPaUUwWTI5cy9yUEF0eGpWMEhac0dmM0VUUW5qQ0ZTbmR2YWMyS1BOUDRyWFVPSjJOT2o3VmdSQWtjM2l6S1FwRHMrQmQxWU55MGhaZWgzNkdjSlFjPSJ9XX0=',
-                [RawSignedModel::class, 'RawSignedModelFromBase64String'],
+                [RawSignedModel::class, 'rawSignedModelFromBase64String'],
             ],
         ];
     }

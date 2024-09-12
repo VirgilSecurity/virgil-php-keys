@@ -39,25 +39,20 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web;
 
-
 /**
  * Class ResponseModel
  */
 class ResponseModel
 {
-    const SupersededCardIDHTTPHeader = 'X-Virgil-Is-Superseeded';
+    private const string SUPERSEDED_CARD_ID_HTTP_HEADER = 'X-Virgil-Is-Superseeded';
 
     /**
      * @var array
      */
-    private $headers;
-    /**
-     * @var RawSignedModel
-     */
-    private $rawSignedModel;
+    private array $headers;
 
 
-    public function __construct(string $stringHeaders, RawSignedModel $rawSignedModel)
+    public function __construct(string $stringHeaders, private readonly RawSignedModel $rawSignedModel)
     {
         $headers = [];
 
@@ -74,7 +69,6 @@ class ResponseModel
         }
 
         $this->headers = $headers;
-        $this->rawSignedModel = $rawSignedModel;
     }
 
 
@@ -93,7 +87,7 @@ class ResponseModel
     public function isOutdated(): bool
     {
         foreach ($this->headers as $key => $value) {
-            if (strcasecmp($key, self::SupersededCardIDHTTPHeader) == 0) {
+            if (strcasecmp($key, self::SUPERSEDED_CARD_ID_HTTP_HEADER) == 0) {
                 return strcasecmp($value, "true") == 0;
             }
         }

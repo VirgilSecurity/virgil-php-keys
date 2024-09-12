@@ -44,30 +44,38 @@ use Virgil\Sdk\Http\Constants\RequestMethods;
 use Virgil\Sdk\Http\Requests\HttpRequestInterface;
 use Virgil\Sdk\Http\Responses\HttpResponseInterface;
 
-
 /**
- * An abstract http client class responsible for defining send request strategy logic.
+ * An abstract HTTP client class responsible for defining send request strategy logic.
  */
 abstract class AbstractHttpClient implements HttpClientInterface
 {
     /**
-     * Sends http request.
+     * Sends HTTP request.
+     *
+     * @param HttpRequestInterface $httpRequest The HTTP request to send.
+     * @return HttpResponseInterface The response from the HTTP request.
+     * @throws RuntimeException If the request method is not supported.
      */
     public function send(HttpRequestInterface $httpRequest): HttpResponseInterface
     {
-        switch ($httpRequest->getMethod()) {
-            case RequestMethods::HTTP_GET:
-                return $this->get($httpRequest->getUrl(), [], $httpRequest->getHeaders());
-            case RequestMethods::HTTP_POST:
-                return $this->post($httpRequest->getUrl(), (string) $httpRequest->getBody(), $httpRequest->getHeaders());
-            case RequestMethods::HTTP_DELETE:
-                return $this->delete(
-                    $httpRequest->getUrl(),
-                    (string) $httpRequest->getBody(),
-                    $httpRequest->getHeaders()
-                );
-        }
-
-        throw new RuntimeException('No such methods for handling this kind of request');
+        $url = $httpRequest->getUrl();
+        $headers = $httpRequest->getHeaders();
+        return match ($httpRequest->getMethod()) {
+            RequestMethods::HTTP_GET => $this->get($url, [], $headers),
+            RequestMethods::HTTP_POST => $this->post($url, (string) $httpRequest->getBody(), $headers),
+            RequestMethods::HTTP_DELETE => $this->delete(
+                $url,
+                (string) $httpRequest->getBody(),
+                $headers
+            ),
+            default => throw new RuntimeException('No such method for handling this kind of request'),
+        };
     }
+
+    // Abstract methods for GET, POST, DELETE to be implemented in child classes
+    abstract protected function get(string $url, array $queryParams, array $headers): HttpResponseInterface;
+
+    abstract protected function post(string $url, string $body, array $headers): HttpResponseInterface;
+
+    abstract protected function delete(string $url, string $body, array $headers): HttpResponseInterface;
 }

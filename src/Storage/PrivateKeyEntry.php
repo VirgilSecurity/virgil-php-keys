@@ -41,28 +41,14 @@ namespace Virgil\Sdk\Storage;
 
 use Virgil\Crypto\Core\VirgilKeys\VirgilPrivateKey;
 
-
 /**
  * Class PrivateKeyEntry
  */
-class PrivateKeyEntry
+readonly class PrivateKeyEntry
 {
-    /**
-     * @var VirgilPrivateKey
-     */
-    private $privateKey;
-    /**
-     * @var array|null
-     */
-    private $meta;
-
-
-    public function __construct(VirgilPrivateKey $privateKey, ?array $meta = null)
+    public function __construct(private VirgilPrivateKey $privateKey, private ?array $meta = null)
     {
-        $this->privateKey = $privateKey;
-        $this->meta = $meta;
     }
-
 
     public function getPrivateKey(): VirgilPrivateKey
     {

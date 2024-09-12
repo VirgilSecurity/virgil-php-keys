@@ -39,31 +39,14 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Class TokenContext
  */
-class TokenContext
+readonly class TokenContext
 {
-    /**
-     * @var string
-     */
-    private $identity;
-    /**
-     * @var string
-     */
-    private $operation;
-    /**
-     * @var bool
-     */
-    private $forceReload;
 
-
-    public function __construct(string $identity, string $operation, bool $forceReload = false)
+    public function __construct(private string $identity, private string $operation, private bool $forceReload = false)
     {
-        $this->identity = $identity;
-        $this->operation = $operation;
-        $this->forceReload = $forceReload;
     }
 
 

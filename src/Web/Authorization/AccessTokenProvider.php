@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Class AccessTokenProvider
  */

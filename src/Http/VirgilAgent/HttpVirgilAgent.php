@@ -39,7 +39,6 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\VirgilAgent;
 
-
 /**
  * Class HttpVirgilAgent
  */
@@ -48,15 +47,15 @@ class HttpVirgilAgent
     /**
      * @var string
      */
-    private $name = 'Virgil-agent';
+    private string $name = 'Virgil-agent';
     /**
      * @var string
      */
-    private $product = 'sdk';
+    private string $product = 'sdk';
     /**
      * @var string
      */
-    private $family = 'php';
+    private string $family = 'php';
 
 
     public function getName(): string

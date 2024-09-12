@@ -42,78 +42,24 @@ namespace Virgil\Sdk;
 use DateTime;
 use Virgil\Crypto\Core\VirgilKeys\VirgilPublicKey;
 
-
 /**
  * Class Card
  */
-class Card
+readonly class Card
 {
-    /**
-     * @var string
-     */
-    private $ID;
-    /**
-     * @var string
-     */
-    private $identity;
-    /**
-     * @var VirgilPublicKey
-     */
-    private $publicKey;
-    /**
-     * @var string
-     */
-    private $version;
-    /**
-     * @var DateTime
-     */
-    private $createdAt;
-    /**
-     * @var bool
-     */
-    private $isOutdated;
-    /**
-     * @var CardSignature[]
-     */
-    private $signatures;
-    /**
-     * @var string
-     */
-    private $contentSnapshot;
-    /**
-     * @var null|string
-     */
-    private $previousCardId;
-    /**
-     * @var null|Card
-     */
-    private $previousCard;
-
-
-    function __construct(
-        string $ID,
-        string $identity,
-        VirgilPublicKey $publicKey,
-        string $version,
-        DateTime $createdAt,
-        bool $isOutdated,
-        array $signatures,
-        string $contentSnapshot,
-        ?string $previousCardId = null,
-        ?Card $previousCard = null
+    public function __construct(
+        private string $ID,
+        private string $identity,
+        private VirgilPublicKey $publicKey,
+        private string $version,
+        private DateTime $createdAt,
+        private bool $isOutdated,
+        private array $signatures,
+        private string $contentSnapshot,
+        private ?string $previousCardId = null,
+        private ?Card $previousCard = null
     ) {
-        $this->ID = $ID;
-        $this->identity = $identity;
-        $this->publicKey = $publicKey;
-        $this->version = $version;
-        $this->createdAt = $createdAt;
-        $this->isOutdated = $isOutdated;
-        $this->signatures = $signatures;
-        $this->contentSnapshot = $contentSnapshot;
-        $this->previousCardId = $previousCardId;
-        $this->previousCard = $previousCard;
     }
-
 
     public function getPublicKey(): VirgilPublicKey
     {

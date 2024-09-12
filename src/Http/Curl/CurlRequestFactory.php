@@ -39,14 +39,13 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\Curl;
 
-
 /**
  * Class provides factory for creation curl requests.
  */
 class CurlRequestFactory implements RequestFactoryInterface
 {
     /** @var array $defaultOptions */
-    protected $defaultOptions = [];
+    protected array $defaultOptions = [];
 
     public function __construct(array $options = [])
     {

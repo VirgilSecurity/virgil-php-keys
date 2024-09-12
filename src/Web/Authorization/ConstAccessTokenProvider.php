@@ -39,21 +39,14 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Web\Authorization;
 
-
 /**
  * Class ConstAccessTokenProvider
  */
-class ConstAccessTokenProvider implements AccessTokenProvider
+readonly class ConstAccessTokenProvider implements AccessTokenProvider
 {
-    /**
-     * @var AccessToken
-     */
-    private $accessToken;
 
-
-    public function __construct(AccessToken $accessToken)
+    public function __construct(private AccessToken $accessToken)
     {
-        $this->accessToken = $accessToken;
     }
 
 

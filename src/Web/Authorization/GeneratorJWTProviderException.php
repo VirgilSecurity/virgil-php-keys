@@ -41,7 +41,6 @@ namespace Virgil\Sdk\Web\Authorization;
 
 use Virgil\Sdk\Exceptions\VirgilException;
 
-
 /**
  * Class GeneratorJWTProviderException
  */

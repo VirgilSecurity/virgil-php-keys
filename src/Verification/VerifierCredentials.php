@@ -41,35 +41,19 @@ namespace Virgil\Sdk\Verification;
 
 use Virgil\Crypto\Core\VirgilKeys\VirgilPublicKey;
 
-
 /**
  * Class VerifierCredentials
  */
-class VerifierCredentials
+readonly class VerifierCredentials
 {
-    /**
-     * @var string
-     */
-    private $signer;
-
-    /**
-     * @var VirgilPublicKey
-     */
-    private $publicKey;
-
-
-    public function __construct(string $signer, VirgilPublicKey $publicKey)
+    public function __construct(private string $signer, private VirgilPublicKey $publicKey)
     {
-        $this->signer = $signer;
-        $this->publicKey = $publicKey;
     }
-
 
     public function getPublicKey(): VirgilPublicKey
     {
         return $this->publicKey;
     }
-
 
     public function getSigner(): string
     {

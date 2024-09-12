@@ -50,10 +50,10 @@ class RawSignedModelTest extends IntegrationBaseTestCase
     public function testSTC1()
     {
         $stc1AsString = $this->fixtures->STC1__As_String();
-        $rawSignedModelFromString = RawSignedModel::RawSignedModelFromBase64String($stc1AsString);
+        $rawSignedModelFromString = RawSignedModel::rawSignedModelFromBase64String($stc1AsString);
 
         $stc1AsJson = $this->fixtures->STC1__As_Json();
-        $rawSignedModelFromJson = RawSignedModel::RawSignedModelFromJson($stc1AsJson);
+        $rawSignedModelFromJson = RawSignedModel::rawSignedModelFromJson($stc1AsJson);
 
         /** @var RawSignedModel $rawSignedModel */
         foreach ([$rawSignedModelFromString, $rawSignedModelFromJson] as $rawSignedModel) {
@@ -77,10 +77,10 @@ class RawSignedModelTest extends IntegrationBaseTestCase
     public function testSTC2()
     {
         $stc2AsString = $this->fixtures->STC2__As_String();
-        $rawSignedModelFromString = RawSignedModel::RawSignedModelFromBase64String($stc2AsString);
+        $rawSignedModelFromString = RawSignedModel::rawSignedModelFromBase64String($stc2AsString);
 
         $stc2AsJson = $this->fixtures->STC2__As_Json();
-        $rawSignedModelFromJson = RawSignedModel::RawSignedModelFromJson($stc2AsJson);
+        $rawSignedModelFromJson = RawSignedModel::rawSignedModelFromJson($stc2AsJson);
 
         /** @var RawSignedModel $rawSignedModel */
         foreach ([$rawSignedModelFromString, $rawSignedModelFromJson] as $rawSignedModel) {

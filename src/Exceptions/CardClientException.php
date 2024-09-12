@@ -39,22 +39,14 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Exceptions;
 
-
 /**
  * Class CardClientException
  */
 class CardClientException extends VirgilException
 {
-    private $errorCode;
-
-    private $errorMessage;
-
-    public function __construct(string $message, int $errorCode, string $errorMessage)
+    public function __construct(string $message, private readonly int $errorCode, private readonly string $errorMessage)
     {
         parent::__construct(sprintf("%s: code: %s: message: %s", $message, $errorCode, $errorMessage), 0);
-
-        $this->errorCode = $errorCode;
-        $this->errorMessage = $errorMessage;
     }
 
     public function getErrorCode(): int

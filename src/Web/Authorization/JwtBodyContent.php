@@ -41,48 +41,19 @@ namespace Virgil\Sdk\Web\Authorization;
 
 use JsonSerializable;
 
-
 /**
  * Class JwtBodyContent
  */
 class JwtBodyContent implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $appID;
-    /**
-     * @var string
-     */
-    private $identity;
-    /**
-     * @var int
-     */
-    private $issuedAt;
-    /**
-     * @var int
-     */
-    private $expiresAt;
-    /**
-     * @var array|null
-     */
-    private $additionalData;
-
-
     public function __construct(
-        string $appID,
-        string $identity,
-        int $issuedAt,
-        int $expiresAt,
-        ?array $additionalData = null
+        private readonly string $appID,
+        private readonly string $identity,
+        private readonly int $issuedAt,
+        private readonly int $expiresAt,
+        private readonly ?array $additionalData = null
     ) {
-        $this->appID = $appID;
-        $this->identity = $identity;
-        $this->issuedAt = $issuedAt;
-        $this->expiresAt = $expiresAt;
-        $this->additionalData = $additionalData;
     }
-
 
     public function getIdentity(): string
     {

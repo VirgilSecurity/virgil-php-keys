@@ -212,8 +212,8 @@ $privateKeyStorage->store($keyPair->getPrivateKey(), "Alice");
 $card = $cardManager->publishCard(
     CardParams::create(
         [
-            CardParams::PublicKey  => $keyPair->getPublicKey(),
-            CardParams::PrivateKey => $keyPair->getPrivateKey(),
+            CardParams::PUBLIC_KEY  => $keyPair->getPublicKey(),
+            CardParams::PRIVATE_KEY => $keyPair->getPrivateKey(),
         ]
     )
 );

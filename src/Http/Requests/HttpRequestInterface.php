@@ -37,7 +37,6 @@
 
 namespace Virgil\Sdk\Http\Requests;
 
-
 /**
  * Interface HttpRequestInterface
  */

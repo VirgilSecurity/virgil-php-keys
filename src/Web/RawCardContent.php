@@ -41,46 +41,18 @@ namespace Virgil\Sdk\Web;
 
 use JsonSerializable;
 
-
 /**
  * Class RawCardContent
  */
-class RawCardContent implements JsonSerializable
+readonly class RawCardContent implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $identity;
-    /**
-     * @var string
-     */
-    private $publicKey;
-    /**
-     * @var string
-     */
-    private $version;
-    /**
-     * @var int
-     */
-    private $createdAt;
-    /**
-     * @var null|string
-     */
-    private $previousCardId;
-
-
     public function __construct(
-        string $identity,
-        string $publicKey,
-        string $version,
-        int $createdAt,
-        ?string $previousCardId = null
+        private string $identity,
+        private string $publicKey,
+        private string $version,
+        private int $createdAt,
+        private ?string $previousCardId = null
     ) {
-        $this->identity = $identity;
-        $this->publicKey = $publicKey;
-        $this->version = $version;
-        $this->createdAt = $createdAt;
-        $this->previousCardId = $previousCardId;
     }
 
 

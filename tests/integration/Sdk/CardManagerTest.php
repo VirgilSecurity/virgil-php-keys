@@ -163,9 +163,9 @@ class CardManagerTest extends IntegrationBaseTestCase
         $keys = $this->virgilCrypto->generateKeyPair();
         $cardParams = CardParams::create(
             [
-                CardParams::Identity => $identity,
-                CardParams::PublicKey => $keys->getPublicKey(),
-                CardParams::PrivateKey => $keys->getPrivateKey(),
+                CardParams::IDENTITY => $identity,
+                CardParams::PUBLIC_KEY => $keys->getPublicKey(),
+                CardParams::PRIVATE_KEY => $keys->getPrivateKey(),
             ]
         );
 
@@ -209,10 +209,10 @@ class CardManagerTest extends IntegrationBaseTestCase
         $keys = $this->virgilCrypto->generateKeyPair();
         $cardParams = CardParams::create(
             [
-                CardParams::Identity => $identity,
-                CardParams::PublicKey => $keys->getPublicKey(),
-                CardParams::PrivateKey => $keys->getPrivateKey(),
-                CardParams::ExtraFields => [
+                CardParams::IDENTITY => $identity,
+                CardParams::PUBLIC_KEY => $keys->getPublicKey(),
+                CardParams::PRIVATE_KEY => $keys->getPrivateKey(),
+                CardParams::EXTRA_FIELDS => [
                     'john' => 'doe',
                     'fire' => 'fox',
                 ],
@@ -257,10 +257,10 @@ class CardManagerTest extends IntegrationBaseTestCase
         $card1 = $cardManager->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $identity,
-                    CardParams::PublicKey => $keys1->getPublicKey(),
-                    CardParams::PrivateKey => $keys1->getPrivateKey(),
-                    CardParams::ExtraFields => [
+                    CardParams::IDENTITY => $identity,
+                    CardParams::PUBLIC_KEY => $keys1->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $keys1->getPrivateKey(),
+                    CardParams::EXTRA_FIELDS => [
                         'john' => 'doe',
                         'fire' => 'fox',
                     ],
@@ -272,10 +272,10 @@ class CardManagerTest extends IntegrationBaseTestCase
         $card2 = $cardManager->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $identity,
-                    CardParams::PublicKey => $keys2->getPublicKey(),
-                    CardParams::PrivateKey => $keys2->getPrivateKey(),
-                    CardParams::PreviousCardID => $card1->getID(),
+                    CardParams::IDENTITY => $identity,
+                    CardParams::PUBLIC_KEY => $keys2->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $keys2->getPrivateKey(),
+                    CardParams::PREVIOUS_CARD_ID => $card1->getID(),
                 ]
             )
         );
@@ -301,10 +301,10 @@ class CardManagerTest extends IntegrationBaseTestCase
         $card1 = $cardManager->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $identity,
-                    CardParams::PublicKey => $keys1->getPublicKey(),
-                    CardParams::PrivateKey => $keys1->getPrivateKey(),
-                    CardParams::ExtraFields => [
+                    CardParams::IDENTITY => $identity,
+                    CardParams::PUBLIC_KEY => $keys1->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $keys1->getPrivateKey(),
+                    CardParams::EXTRA_FIELDS => [
                         'john' => 'doe',
                         'fire' => 'fox',
                     ],
@@ -317,10 +317,10 @@ class CardManagerTest extends IntegrationBaseTestCase
         $card2 = $cardManager->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $identity,
-                    CardParams::PublicKey => $keys2->getPublicKey(),
-                    CardParams::PrivateKey => $keys2->getPrivateKey(),
-                    CardParams::PreviousCardID => $card1->getID(),
+                    CardParams::IDENTITY => $identity,
+                    CardParams::PUBLIC_KEY => $keys2->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $keys2->getPrivateKey(),
+                    CardParams::PREVIOUS_CARD_ID => $card1->getID(),
                 ]
             )
         );
@@ -329,9 +329,9 @@ class CardManagerTest extends IntegrationBaseTestCase
         $card3 = $cardManager->publishCard(
             CardParams::create(
                 [
-                    CardParams::Identity => $identity,
-                    CardParams::PublicKey => $keys3->getPublicKey(),
-                    CardParams::PrivateKey => $keys3->getPrivateKey(),
+                    CardParams::IDENTITY => $identity,
+                    CardParams::PUBLIC_KEY => $keys3->getPublicKey(),
+                    CardParams::PRIVATE_KEY => $keys3->getPrivateKey(),
                 ]
             )
         );

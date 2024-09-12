@@ -41,15 +41,13 @@ namespace Virgil\Sdk\Storage;
 
 use Virgil\Sdk\Exceptions\VirgilException;
 
-
 /**
  * Class KeyStorage
  */
 class KeyStorage
 {
     /** @var string */
-    private $keysPath;
-
+    private string $keysPath;
 
     /**
      * @throws VirgilException

@@ -46,35 +46,28 @@ use Virgil\Sdk\Http\Requests\GetHttpRequest;
 use Virgil\Sdk\Http\Requests\PostHttpRequest;
 use Virgil\Sdk\Http\VirgilAgent\HttpVirgilAgent;
 
-
 /**
  * Class CardClient
  */
 class CardClient
 {
-    const API_SERVICE_URL = 'https://api.virgilsecurity.com';
+    public const string API_SERVICE_URL = 'https://api.virgilsecurity.com';
 
     /**
-     * @var HttpClientInterface
+     * @var CurlClient|HttpClientInterface|null
      */
-    private $httpClient;
+    private null|CurlClient|HttpClientInterface $httpClient;
     /**
      * @var string
      */
-    private $serviceUrl;
-
-    /**
-     * @var HttpVirgilAgent
-     */
-    private $httpVirgilAgent;
+    private string $serviceUrl;
 
 
     public function __construct(
-        HttpVirgilAgent $httpVirgilAgent,
+        private readonly HttpVirgilAgent $httpVirgilAgent,
         string $serviceUrl = self::API_SERVICE_URL,
         ?HttpClientInterface $httpClient = null
     ) {
-        $this->httpVirgilAgent = $httpVirgilAgent;
         if ($httpClient === null) {
             $httpClient = new CurlClient(
                 new CurlRequestFactory(
@@ -91,9 +84,11 @@ class CardClient
 
 
     /**
+     * @param RawSignedModel $model
+     * @param string $token
      * @return ErrorResponseModel|RawSignedModel
      */
-    public function publishCard(RawSignedModel $model, string $token)
+    public function publishCard(RawSignedModel $model, string $token): ErrorResponseModel|RawSignedModel
     {
         $httpResponse = $this->httpClient->send(
             new PostHttpRequest(
@@ -106,21 +101,22 @@ class CardClient
             )
         );
 
-        if (
-            !$httpResponse->getHttpStatusCode()
+        if (!$httpResponse->getHttpStatusCode()
                 ->isSuccess()
         ) {
             return $this->parseErrorResponse($httpResponse->getBody());
         }
 
-        return RawSignedModel::RawSignedModelFromJson($httpResponse->getBody());
+        return RawSignedModel::rawSignedModelFromJson($httpResponse->getBody());
     }
 
 
     /**
+     * @param string $cardID
+     * @param string $token
      * @return ErrorResponseModel|ResponseModel
      */
-    public function getCard(string $cardID, string $token)
+    public function getCard(string $cardID, string $token): ErrorResponseModel|ResponseModel
     {
         $httpResponse = $this->httpClient->send(
             new GetHttpRequest(
@@ -133,27 +129,30 @@ class CardClient
             )
         );
 
-        if (
-            !$httpResponse->getHttpStatusCode()
+        if (!$httpResponse->getHttpStatusCode()
                 ->isSuccess()
         ) {
             return $this->parseErrorResponse($httpResponse->getBody());
         }
 
-        $rawSignedModel = RawSignedModel::RawSignedModelFromJson($httpResponse->getBody());
+        $rawSignedModel = RawSignedModel::rawSignedModelFromJson($httpResponse->getBody());
 
         return new ResponseModel($httpResponse->getHeaders(), $rawSignedModel);
     }
 
 
     /**
-     * @return RawSignedModel[]|ErrorResponseModel
+     * Searches for cards based on the provided identity and token.
+     *
+     * @param string $identity The identity to search for.
+     * @param string $token The authorization token.
+     * @return ErrorResponseModel|array The search results or an error response.
      */
-    public function searchCards(string $identity, string $token)
+    public function searchCards(string $identity, string $token): ErrorResponseModel|array
     {
         $httpResponse = $this->httpClient->send(
             new PostHttpRequest(
-                $this->serviceUrl . "/card/v5/actions/search",
+                sprintf("%s/card/v5/actions/search", $this->serviceUrl),
                 json_encode(["identity" => $identity], JSON_UNESCAPED_SLASHES),
                 [
                     "Authorization" => sprintf("Virgil %s", $token),
@@ -162,22 +161,22 @@ class CardClient
             )
         );
 
-        if (
-            !$httpResponse->getHttpStatusCode()
-                ->isSuccess()
-        ) {
+        if (!$httpResponse->getHttpStatusCode()->isSuccess()) {
             return $this->parseErrorResponse($httpResponse->getBody());
         }
 
         $rawModels = [];
-
         $rawModelsJson = json_decode($httpResponse->getBody(), true);
+
         foreach ($rawModelsJson as $rawModelJson) {
-            $rawModels[] = RawSignedModel::RawSignedModelFromJson(json_encode($rawModelJson, JSON_UNESCAPED_SLASHES));
+            $rawModels[] = RawSignedModel::rawSignedModelFromJson(
+                json_encode($rawModelJson, JSON_UNESCAPED_SLASHES)
+            );
         }
 
         return $rawModels;
     }
+
 
 
     public function revokeCard(string $cardID, string $token): ?ErrorResponseModel
@@ -193,8 +192,7 @@ class CardClient
             )
         );
 
-        if (
-            !$httpResponse->getHttpStatusCode()
+        if (!$httpResponse->getHttpStatusCode()
                 ->isSuccess()
         ) {
             return $this->parseErrorResponse($httpResponse->getBody());

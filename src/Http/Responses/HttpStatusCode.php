@@ -39,19 +39,13 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\Responses;
 
-
 /**
  * Class represents HTTP status code.
  */
-class HttpStatusCode implements HttpStatusCodeInterface
+readonly class HttpStatusCode implements HttpStatusCodeInterface
 {
-    /** @var string $statusCode */
-    private $statusCode;
-
-
-    public function __construct(string $statusCode)
+    public function __construct(private string $statusCode)
     {
-        $this->statusCode = $statusCode;
     }
 
 

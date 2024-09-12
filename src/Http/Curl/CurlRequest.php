@@ -39,7 +39,6 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\Curl;
 
-
 /**
  * Class aims initialize cURL session and provides necessary methods to perform configuration, execution and closing
  * the session.
@@ -49,8 +48,8 @@ class CurlRequest implements RequestInterface
     /** @var resource $handle */
     private $handle;
 
-    /** @var $options */
-    private $options;
+    /** @var array $options */
+    private array $options;
 
     public function __construct(?string $url = null)
     {
@@ -61,7 +60,7 @@ class CurlRequest implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function execute()
+    public function execute(): mixed
     {
         curl_setopt_array($this->handle, $this->options);
 
@@ -72,7 +71,7 @@ class CurlRequest implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function getInfo(?int $option = null)
+    public function getInfo(?int $option = null): mixed
     {
         return $option !== null ? curl_getinfo($this->handle, $option) : curl_getinfo($this->handle);
     }

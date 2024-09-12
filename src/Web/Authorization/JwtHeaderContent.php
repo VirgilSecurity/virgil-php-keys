@@ -41,36 +41,17 @@ namespace Virgil\Sdk\Web\Authorization;
 
 use JsonSerializable;
 
-
 /**
  * Class JwtHeaderContent
  */
-class JwtHeaderContent implements JsonSerializable
+readonly class JwtHeaderContent implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    protected $contentType;
-    /**
-     * @var string
-     */
-    protected $type;
-    /**
-     * @var string
-     */
-    private $algorithm;
-    /**
-     * @var string
-     */
-    private $apiPublicKeyIdentifier;
-
-
-    public function __construct(string $apiPublicKeyIdentifier, string $algorithm, string $contentType, string $type)
-    {
-        $this->apiPublicKeyIdentifier = $apiPublicKeyIdentifier;
-        $this->algorithm = $algorithm;
-        $this->contentType = $contentType;
-        $this->type = $type;
+    public function __construct(
+        private string $apiPublicKeyIdentifier,
+        private string $algorithm,
+        private string $contentType,
+        private string $type
+    ) {
     }
 
 
@@ -89,11 +70,11 @@ class JwtHeaderContent implements JsonSerializable
     /**
      * Specify data which should be serialized to JSON
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * @return array data which can be serialized by <b>json_encode</b>,
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'alg' => $this->algorithm,

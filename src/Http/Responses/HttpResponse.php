@@ -39,28 +39,16 @@ declare(strict_types=1);
 
 namespace Virgil\Sdk\Http\Responses;
 
-
 /**
  * Class represents HTTP response.
  */
 class HttpResponse implements HttpResponseInterface
 {
-
-    /** @var string|null $body */
-    private $body;
-
-    /** @var string $headers */
-    private $headers;
-
-    /** @var HttpStatusCodeInterface $status */
-    private $status;
-
-
-    public function __construct(HttpStatusCodeInterface $status, string $headers, ?string $body = null)
-    {
-        $this->body = $body;
-        $this->headers = $headers;
-        $this->status = $status;
+    public function __construct(
+        private HttpStatusCodeInterface $status,
+        private string $headers,
+        private ?string $body = null
+    ) {
     }
 
 
