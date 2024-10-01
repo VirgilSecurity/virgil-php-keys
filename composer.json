@@ -35,7 +35,7 @@
   "require": {
     "php": "^8.3",
     "ext-curl": "*",
-    "virgil/crypto": "^6.3.1",
+    "virgil/crypto": "^7.0.0",
     "ext-json": "*"
   },
   "require-dev": {
